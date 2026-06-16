@@ -18,17 +18,41 @@
       padding: 18px;
     }
 
-    h1 {
-      font-size: 26px;
-      margin-bottom: 6px;
+    .header {
       text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .doctor-name {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0b2f5b;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+
+    .credentials {
+      font-size: 17px;
+      font-weight: 600;
+      color: #6c757d;
+      margin-bottom: 18px;
+      line-height: 1.35;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 0 8px 0;
+      text-align: center;
+      color: #222;
     }
 
     .subtitle {
       text-align: center;
-      color: #555;
-      font-size: 15px;
+      color: #666;
+      font-size: 17px;
       margin-bottom: 18px;
+      line-height: 1.4;
     }
 
     .card {
@@ -137,8 +161,18 @@
 </head>
 <body>
   <div class="container">
-    <h1>Contador de Porciones</h1>
-    <div class="subtitle">Marque sus porciones conforme las vaya consumiendo durante el día.</div>
+
+    <div class="header">
+      <div class="doctor-name">Dr. Joaquín Del Castillo Álvarez</div>
+      <div class="credentials">
+        Medicina | Mtr. Nutrición | Mtr. Cuidados Intensivos | Dipl. Nutrición y Cirugía Bariátrica
+      </div>
+
+      <h1>Contador de Porciones</h1>
+      <div class="subtitle">
+        Marque sus porciones conforme las vaya consumiendo durante el día.
+      </div>
+    </div>
 
     <div id="dateBox" class="date-box"></div>
 
