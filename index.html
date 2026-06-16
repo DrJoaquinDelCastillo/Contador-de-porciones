@@ -122,12 +122,25 @@
     .zero {
       color: #b00020;
     }
+
+    .date-box {
+      text-align: center;
+      font-size: 14px;
+      color: #444;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Contador de Porciones</h1>
     <div class="subtitle">Marque sus porciones conforme las vaya consumiendo durante el día.</div>
+
+    <div id="dateBox" class="date-box"></div>
 
     <div id="warning" class="warning" style="display:none;">
       Este enlace no contiene porciones configuradas. Revise que el link incluya los valores del plan.
@@ -139,7 +152,7 @@
     <button class="reset" onclick="resetDay()">Reiniciar día</button>
 
     <div class="message">
-      El avance se guarda únicamente en este dispositivo. Al día siguiente se inicia un nuevo registro.
+      El avance se guarda únicamente en este dispositivo. Cuando cambie la fecha del celular, se iniciará un nuevo conteo diario.
     </div>
   </div>
 
@@ -162,12 +175,36 @@
 
     const params = new URLSearchParams(window.location.search);
 
-    const today = new Date().toISOString().slice(0, 10);
+    function getLocalDateKey() {
+      const now = new Date();
+
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
+    function getReadableLocalDate() {
+      const now = new Date();
+
+      return now.toLocaleDateString("es-MX", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
+    const today = getLocalDateKey();
     const planSignature = window.location.search || "sin-plan";
     const storageKey = "porciones_" + today + "_" + btoa(planSignature);
 
+    document.getElementById("dateBox").innerText = "Conteo del día: " + getReadableLocalDate();
+
     let plan = groups.map(group => {
       const total = Number(params.get(group.key) || 0);
+
       return {
         ...group,
         total: total,
@@ -184,6 +221,7 @@
     if (saved) {
       try {
         const savedData = JSON.parse(saved);
+
         plan = plan.map(group => {
           const match = savedData.find(item => item.key === group.key);
           return match ? { ...group, used: match.used } : group;
@@ -215,15 +253,18 @@
 
     function resetDay() {
       const confirmReset = confirm("¿Desea reiniciar el conteo de hoy?");
+
       if (!confirmReset) return;
 
       plan = plan.map(group => ({ ...group, used: 0 }));
+
       save();
       render();
     }
 
     function copySummary() {
-      let text = "Resumen de porciones de hoy:\\n\\n";
+      let text = "Resumen de porciones de hoy:\\n";
+      text += getReadableLocalDate() + "\\n\\n";
 
       plan.forEach(group => {
         const remaining = group.total - group.used;
