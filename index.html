@@ -10,17 +10,16 @@
       margin: 0;
       background-color: #f6f7f9;
       color: #222;
-      position: relative;
       min-height: 100vh;
     }
 
     body::before {
       content: "";
       position: fixed;
-      top: 50%;
+      top: 52%;
       left: 50%;
-      width: 360px;
-      height: 360px;
+      width: 430px;
+      height: 430px;
       transform: translate(-50%, -50%);
       background-image: url("IMG_8822.png");
       background-repeat: no-repeat;
@@ -28,7 +27,7 @@
       background-size: contain;
       opacity: 0.045;
       pointer-events: none;
-      z-index: 0;
+      z-index: 999;
     }
 
     .container {
